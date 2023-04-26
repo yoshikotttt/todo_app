@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="jquery-3.6.0.min.js"></script>
-     <script src="main.js"></script>
+    <script src="calendar.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
-
     <title>Document</title>
 </head>
 
@@ -23,6 +23,10 @@
         <p><span id="counter">0</span>こできました</p>
         <button id="save" class="button_solid012">きろくをのこす</button>
         <button id="reset" class="button_solid011">リセット</button>
+        <a href="calendar.html" class="button_solid013">カレンダー</a>
+
+       
+
     </div>
 
 
@@ -30,40 +34,40 @@
     <main>
         <div class="todo">
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/3.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/6.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/5.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/4.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/7.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/9.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/11.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/13.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/10.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/12.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/14.png" alt="">
             </div>
             <div class="card">
-                <img class="image" src="./img/image01.jpg" alt="">
+                <img class="image" src="./img/8.png" alt="">
             </div>
 
         </div>
@@ -71,7 +75,6 @@
 
     </main>
 
-    <div id="calendar">
 
 
     </div>
@@ -101,14 +104,22 @@
             });
 
 
-            // カウンターの値をローカルストレージに保存する
-            function saveCountByToLocalStorage() {
-                const count = parseInt($("#counter").text()); // カウンターの値を取得
-                localStorage.setItem("count", count); // ローカルストレージに保存
-            }
+
+            // function saveCountByToLocalStorage() {
+            //     const count = parseInt($("#counter").text()); 
+            //     localStorage.setItem("count", count); 
+            // }
 
             // ボタンをクリックしたときにカウンターの値をローカルストレージに保存する
             $("#save").on("click", function () {
+                Swal.fire({
+                    title: 'ほぞんしたよ！',
+                    text: 'きょうもいちにちおつかれさまでした',
+                    imageUrl: "img/prcure.jpg",
+                    imageWidth: 400,
+                    imageHeight: 200,
+                    imageAlt: 'Custom image',
+                })
                 saveCountByToLocalStorage();
             });
 
@@ -140,6 +151,9 @@
         if (data) {
             console.log(JSON.parse(data));
         }
+
+       
+        
 
     </script>
 
