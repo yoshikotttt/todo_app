@@ -46,6 +46,7 @@ width: 240px;
     border: 2px solid #000;
     z-index: 1;
     border-radius: 5px;
+    text-decoration: none;
 }
 
 .button_solid013:before {
@@ -57,6 +58,7 @@ width: 240px;
     z-index: -1;
     border: 2px solid #000;
     border-radius: 5px;
+   
 }
 
 .button_solid013:after {
@@ -76,6 +78,7 @@ width: 240px;
     -webkit-box-shadow: 0 0.6rem 0 0 rgb(0 0 0 / 20%);
     box-shadow: 0 0.4rem 0 0 rgb(0 0 0 / 20%);
     z-index: -2;
+    text-decoration: none;
 }
 
 .button_solid013 i {
@@ -237,12 +240,14 @@ p {
     width: 200px;
     border: double 10px #c6b3b3;
     padding:10px;
+    border-radius: 5px;
 }
 
 #counter {
     margin-top: 10px;
     text-align: center;
     width: 100%;
+    
 }
 
 

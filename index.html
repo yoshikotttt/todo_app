@@ -25,7 +25,7 @@
         <button id="reset" class="button_solid011">リセット</button>
         <a href="calendar.html" class="button_solid013">カレンダー</a>
 
-       
+
 
     </div>
 
@@ -83,12 +83,36 @@
 
     <script>
         $(document).ready(function () {
+            
+            // let count = 0;
+            // const initialImageSrc = $(".image").first().attr("src");
+            // const counter = $("#counter");
 
+            // $(".image").on("click", function () {
+            //     if ($(this).attr("src") !== initialImageSrc) {
+            //         return;
+            //     }
+            //     $(this).attr("src", './img/image00.jpg');
+            //     count++;
+            //     counter.text(count);
+            // });
+
+            // $("#reset").on("click", function () {
+            //     $(".image").attr("src", initialImageSrc);
+            //     count = 0;
+            //     counter.text(count);
+            // });
+
+            //各image要素に別の属性を設定
             let count = 0;
-            const initialImageSrc = $(".image").first().attr("src");
             const counter = $("#counter");
 
+            $(".image").each(function () {
+                $(this).attr("data-src", $(this).attr("src"));
+            });
+
             $(".image").on("click", function () {
+                const initialImageSrc = $(this).attr("data-src");
                 if ($(this).attr("src") !== initialImageSrc) {
                     return;
                 }
@@ -98,17 +122,26 @@
             });
 
             $("#reset").on("click", function () {
-                $(".image").attr("src", initialImageSrc);
+                $(".image").each(function () {
+                    $(this).attr("src", $(this).attr("data-src"));
+                });
                 count = 0;
                 counter.text(count);
             });
 
 
 
-            // function saveCountByToLocalStorage() {
-            //     const count = parseInt($("#counter").text()); 
-            //     localStorage.setItem("count", count); 
-            // }
+
+
+
+
+
+
+
+            function saveCountByToLocalStorage() {
+                const count = parseInt($("#counter").text());
+                localStorage.setItem("count", count);
+            }
 
             // ボタンをクリックしたときにカウンターの値をローカルストレージに保存する
             $("#save").on("click", function () {
@@ -152,8 +185,8 @@
             console.log(JSON.parse(data));
         }
 
-       
-        
+
+
 
     </script>
 
