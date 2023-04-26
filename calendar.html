@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
 </head>
 <body>
-    <div id="calendar"></div>
-    
-    <script>
+  <div id="calendar"></div>
 
-
-
-const now = new Date();  // 現在の日時を取得
+  <script>
+    const now = new Date();  // 現在の日時を取得
 const year = now.getFullYear();  // 年を取得
 const month = now.getMonth() + 1;  // 月を取得（0から始まるので+1する）
+
+// ローカルストレージからデータを取得
+const countData = JSON.parse(localStorage.getItem('countData'));
+
+// 年月ごとのカウント数の配列を作成
+const countArray = {};
+if (countData) {
+  for (const key in countData) {
+    const date = new Date(key);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    if (!countArray[year]) {
+      countArray[year] = {};
+    }
+    countArray[year][month] = countData[key];
+  }
+}
 
 function generateCalendar(year, month) {
     const table = document.createElement('table');
@@ -55,26 +69,31 @@ function generateCalendar(year, month) {
           // 今月の日付
           cell.textContent = date;
           date++;
+
+          // カウント数を表示
+          const count = countArray[year] && countArray[year][month] && countArray[year][month][date - 1];
+          if (count) {
+            const span = document.createElement('span');
+            span.classList.add('count');
+            span.textContent = count;
+            cell.appendChild(span);
+          }
         }
         row.appendChild(cell);
       }
       tbody.appendChild(row);
     }
-    
+
     table.appendChild(tbody);
     return table;
-  }
-
-
+}
 
 const calendar = generateCalendar(year, month);  // カレンダーを生成
-$('#calendar').append(calendar);  // カレンダーを親要素に追加
+$('#calendar').append(calendar);  // カレンダーを親要素
 
 
 
-  
 
-
-    </script>
+  </script>
 </body>
 </html>

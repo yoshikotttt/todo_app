@@ -333,3 +333,10 @@ table {
 
 }
 
+.count {
+    display: block;
+    font-size: 12px;
+    margin-top: 2px;
+    text-align: center;
+  }
+  
