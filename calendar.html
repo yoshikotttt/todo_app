@@ -119,20 +119,29 @@
 
             // カウント数を表示
             // 日付要素にカウント数を表示する
-            const dateElements = document.querySelectorAll('[data-date]');
-            dateElements.forEach(dateElement => {
-              const date = dateElement.getAttribute('data-date');
-              if (countData[date]) {
-                const count = countData[date];
-                const span = document.createElement('span');
-                span.classList.add('count');
-                span.textContent = count;
-                dateElement.appendChild(span);
-              }
-            });
+          //   const dateElements = document.querySelectorAll('[data-date]');
+          //   dateElements.forEach(dateElement => {
+          //     const date = dateElement.getAttribute('data-date');
+          //     if (countData[date]) {
+          //       const count = countData[date];
+          //       const span = document.createElement('span');
+          //       span.classList.add('count');
+          //       span.textContent = count;
+          //       dateElement.appendChild(span);
+          //     }
+          //   });
 
-          }
+          // }
           // ...
+          const countData = JSON.parse(localStorage.getItem('data'));
+      const count = countData[`${year}-${month}-${cell.textContent}`];
+      if (count) {
+        const span = document.createElement('span');
+        span.classList.add('count');
+        span.textContent = count;
+        cell.appendChild(span);
+      }
+    }
 
 
           row.appendChild(cell);
@@ -153,6 +162,7 @@
     // 行全体をコンソールに出力する
     console.log(row);
    
+    
 
 
   </script>
