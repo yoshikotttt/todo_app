@@ -340,3 +340,10 @@ table {
     text-align: center;
   }
   
+  .date[data-date]::after {
+    content: attr(data-count);
+    display: block;
+    font-size: 12px;
+    margin-top: 2px;
+    text-align: center;
+  }

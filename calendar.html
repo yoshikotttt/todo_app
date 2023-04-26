@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,93 +9,153 @@
   <link rel="stylesheet" href="style.css">
   <title>Document</title>
 </head>
+
 <body>
   <div id="calendar"></div>
 
   <script>
     const now = new Date();  // 現在の日時を取得
-const year = now.getFullYear();  // 年を取得
-const month = now.getMonth() + 1;  // 月を取得（0から始まるので+1する）
+    const year = now.getFullYear();  // 年を取得
+    const month = now.getMonth() + 1;  // 月を取得（0から始まるので+1する）
 
-// ローカルストレージからデータを取得
-const countData = JSON.parse(localStorage.getItem('countData'));
-console.log(countData);
+    // ローカルストレージからデータを取得
 
-// 年月ごとのカウント数の配列を作成
-const countArray = {};
-if (countData) {
-  for (const key in countData) {
-    const date = new Date(key);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    if (!countArray[year]) {
-      countArray[year] = {};
-    }
-    countArray[year][month] = countData[key];
-  }
-}
+    const countData = JSON.parse(localStorage.getItem('data'));
+    console.log(countData);
 
-function generateCalendar(year, month) {
-    const table = document.createElement('table');
-    const tbody = document.createElement('tbody');
-    
-    // カレンダーのヘッダーを生成
-    const headerRow = document.createElement('tr');
-    const headers = ['日', '月', '火', '水', '木', '金', '土'];
-    for (const header of headers) {
-      const th = document.createElement('th');
-      th.textContent = header;
-      headerRow.appendChild(th);
-    }
-    tbody.appendChild(headerRow);
-    
-    // 指定された年月の日数を取得
-    const lastDate = new Date(year, month, 0).getDate();
-    
-    // カレンダーの日付部分を生成
-    let date = 1;
-    for (let week = 0; week < 6; week++) {
-      const row = document.createElement('tr');
-      for (let day = 0; day < 7; day++) {
-        const cell = document.createElement('td');
-        if (week === 0 && day < new Date(year, month - 1, 1).getDay()) {
-          // 先月の日付
-          cell.classList.add('prev-month');
-          cell.textContent = new Date(year, month - 1, 0).getDate() - new Date(year, month - 1, 1).getDay() + day + 1;
-        } else if (date > lastDate) {
-          // 来月の日付
-          cell.classList.add('next-month');
-          cell.textContent = date - lastDate;
-          date++;
-        } else {
-          // 今月の日付
-          cell.textContent = date;
-          date++;
+    // 日付の要素を取得する
+    const dateElements = document.querySelectorAll('.date');
 
-          // カウント数を表示
-          const count = countArray[year] && countArray[year][month] && countArray[year][month][date - 1];
-          if (count) {
-            const span = document.createElement('span');
-            span.classList.add('count');
-            span.textContent = count;
-            cell.appendChild(span);
-          }
-        }
-        row.appendChild(cell);
+
+    const row = document.createElement('tr');
+
+    // rowの子要素の中からcellクラスを持つ要素を全て取得
+    console.log(row.querySelectorAll('.cell'));
+    // テーブルのセルを作成する
+    for (let i = 0; i < dateElements.length; i++) {
+      const cell = document.createElement('td');
+      const date = parseInt(dateElements[i].innerText);
+      const year = selectedYear;
+      const month = selectedMonth + 1;
+
+      cell.classList.add('cell');
+      cell.setAttribute('data-date', `${year}-${month}-${date}`);
+
+      if (countData[`${year}-${month}-${date}`]) {
+        cell.setAttribute('data-count', countData[`${year}-${month}-${date}`]);
       }
-      tbody.appendChild(row);
+
+      cell.innerText = date;
+      row.appendChild(cell);
+
     }
 
-    table.appendChild(tbody);
-    return table;
-}
-
-const calendar = generateCalendar(year, month);  // カレンダーを生成
-$('#calendar').append(calendar);  // カレンダーを親要素
 
 
+
+    // 日付の要素に対応する値を設定する
+    dateElements.forEach(dateElement => {
+      const date = dateElement.getAttribute('data-date');
+      if (countData[date]) {
+        dateElement.innerHTML += ` (${countData[date]})`;
+      }
+    });
+
+
+
+
+    // 年月ごとのカウント数の配列を作成
+    const countArray = {};
+    if (countData) {
+      for (const key in countData) {
+        const date = new Date(key);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        if (!countArray[year]) {
+          countArray[year] = {};
+        }
+        countArray[year][month] = countData[key];
+      }
+    }
+
+    function generateCalendar(year, month) {
+      const table = document.createElement('table');
+      const tbody = document.createElement('tbody');
+
+      // カレンダーのヘッダーを生成
+      const headerRow = document.createElement('tr');
+      const headers = ['日', '月', '火', '水', '木', '金', '土'];
+      for (const header of headers) {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+      }
+      tbody.appendChild(headerRow);
+
+      // 指定された年月の日数を取得
+      const lastDate = new Date(year, month, 0).getDate();
+
+      // カレンダーの日付部分を生成
+      // カレンダーの日付部分を生成
+      let date = 1;
+      for (let week = 0; week < 6; week++) {
+        const row = document.createElement('tr');
+        for (let day = 0; day < 7; day++) {
+          const cell = document.createElement('td');
+          if (week === 0 && day < new Date(year, month - 1, 1).getDay()) {
+            // 先月の日付
+            cell.classList.add('prev-month');
+            cell.textContent = new Date(year, month - 1, 0).getDate() - new Date(year, month - 1, 1).getDay() + day + 1;
+          } else if (date > lastDate) {
+            // 来月の日付
+            cell.classList.add('next-month');
+            cell.textContent = date - lastDate;
+            date++;
+          } else {
+            // 今月の日付
+            cell.textContent = date;
+            cell.setAttribute('data-date', `${year}-${month}-${date}`); // 日付の要素に data-date 属性を設定
+            date++;
+
+            // カウント数を表示
+            // 日付要素にカウント数を表示する
+            const dateElements = document.querySelectorAll('[data-date]');
+            dateElements.forEach(dateElement => {
+              const date = dateElement.getAttribute('data-date');
+              if (countData[date]) {
+                const count = countData[date];
+                const span = document.createElement('span');
+                span.classList.add('count');
+                span.textContent = count;
+                dateElement.appendChild(span);
+              }
+            });
+
+          }
+          // ...
+
+
+          row.appendChild(cell);
+        }
+        tbody.appendChild(row);
+      }
+
+      table.appendChild(tbody);
+      return table;
+    }
+
+    const calendar = generateCalendar(year, month);  // カレンダーを生成
+    $('#calendar').append(calendar);  // カレンダーを親要素
+
+    // 行をテーブルに追加する
+    document.querySelector('tbody').appendChild(row);
+
+    // 行全体をコンソールに出力する
+    console.log(row);
+   
 
 
   </script>
 </body>
+
 </html>
