@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="jquery-3.6.0.min.js"></script>
+     <script src="main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>やることリスト</h1>
+    </header>
+    <div class="group">
+        <p><span id="counter">0</span>こできました</p>
+        <button id="save" class="button_solid012">きろくをのこす</button>
+        <button id="reset" class="button_solid011">リセット</button>
+    </div>
+
+
+
+    <main>
+        <div class="todo">
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+            <div class="card">
+                <img class="image" src="./img/image01.jpg" alt="">
+            </div>
+
+        </div>
+        </div>
+
+    </main>
+
+    <div id="calendar">
+
+
+    </div>
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            let count = 0;
+            const initialImageSrc = $(".image").first().attr("src");
+            const counter = $("#counter");
+
+            $(".image").on("click", function () {
+                if ($(this).attr("src") !== initialImageSrc) {
+                    return;
+                }
+                $(this).attr("src", './img/image00.jpg');
+                count++;
+                counter.text(count);
+            });
+
+            $("#reset").on("click", function () {
+                $(".image").attr("src", initialImageSrc);
+                count = 0;
+                counter.text(count);
+            });
+
+
+            // カウンターの値をローカルストレージに保存する
+            function saveCountByToLocalStorage() {
+                const count = parseInt($("#counter").text()); // カウンターの値を取得
+                localStorage.setItem("count", count); // ローカルストレージに保存
+            }
+
+            // ボタンをクリックしたときにカウンターの値をローカルストレージに保存する
+            $("#save").on("click", function () {
+                saveCountByToLocalStorage();
+            });
+
+            function saveCountByToLocalStorage() {
+                const count = parseInt($("#counter").text());
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = ("0" + (date.getMonth() + 1)).slice(-2);
+                const day = ("0" + date.getDate()).slice(-2);
+                const today = `${year}-${month}-${day}`;
+
+                let data = localStorage.getItem("data");
+
+                if (!data) {
+                    data = {};
+                } else {
+                    data = JSON.parse(data);
+                }
+
+                data[today] = count;
+                localStorage.setItem("data", JSON.stringify(data));
+
+
+
+            }
+        });
+
+        let data = localStorage.getItem("data");
+        if (data) {
+            console.log(JSON.parse(data));
+        }
+
+    </script>
+
+</body>
+
+</html>
